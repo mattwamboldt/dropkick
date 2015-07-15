@@ -40,6 +40,35 @@ namespace Tetris
 		LEFT,
 		NUM_ROTATIONS
 	};
+
+	enum CommandType
+	{
+		// Basic Movement
+		MOVE_LEFT,
+		MOVE_RIGHT,
+		STOP_HORIZONTAL,
+		ROTATE_LEFT,
+		ROTATE_RIGHT,
+		SOFT_DROP_START,
+		SOFT_DROP_END,
+
+		// Abilities
+		HARD_DROP,
+		HOLD_PIECE,
+		USE_SPELL,
+
+		NUM_COMMANDS
+	};
+
+	enum Mode
+	{
+		ENDLESS,
+		BATTLE,
+		PUZZLE,
+		COOP,
+		SPRINT,
+		NUM_MODES
+	};
 }
 
 #endif

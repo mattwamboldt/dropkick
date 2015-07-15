@@ -143,6 +143,7 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="game\input\inputmanager.cpp" />
     <ClCompile Include="game\main.cpp" />
     <ClCompile Include="game\resources\assetmanager.cpp" />
+    <ClCompile Include="game\tetris\gamelogic.cpp" />
     <ClCompile Include="game\tetris\mino.cpp" />
     <ClCompile Include="game\tetris\preview.cpp" />
     <ClCompile Include="game\tetris\randomizer.cpp" />
@@ -164,6 +165,8 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="game\gamesettings.h" />
     <ClInclude Include="game\input\inputmanager.h" />
     <ClInclude Include="game\resources\assetmanager.h" />
+    <ClInclude Include="game\tetris\commandqueue.h" />
+    <ClInclude Include="game\tetris\gamelogic.h" />
     <ClInclude Include="game\tetris\mino.h" />
     <ClInclude Include="game\tetris\settings.h" />
     <ClInclude Include="game\tetris\Tetris.h" />

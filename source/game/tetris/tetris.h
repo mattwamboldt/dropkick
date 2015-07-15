@@ -36,8 +36,13 @@ private:
 	SDL_Texture* frameImage;
 
 	TetrisPlayer players[2];
+	Tetrion playfields[2];
+
+
 	Settings settings;
 	AssetManager assets;
+
+	Mode currentMode;
 
 	// Debug menu stuff
 	enum MenuItem
@@ -45,6 +50,7 @@ private:
 		Tetris_Reset = 0,
 		Tetris_PlayEndless,
 		Tetris_PlayVersus,
+		Tetris_PlayCoop,
 		Tetris_QuitGame,
 		Tetris_ReloadTextures,
 		Tetris_ExitMenu,
@@ -61,6 +67,8 @@ private:
 	void TriggerMenu();
 	void RedrawMenu();
 	void MenuHandleInput(SDL_GameControllerButton button);
+
+	void SetMode(Mode mode);
 };
 
 #endif

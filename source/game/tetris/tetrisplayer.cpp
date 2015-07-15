@@ -37,15 +37,15 @@ namespace Tetris
 		softDropActive = false;
 	}
 
-	void TetrisPlayer::Init(int x, int y, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture)
+	void TetrisPlayer::Init(Tetrion* field, int x, int y, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture)
 	{
+		playfield = field;
 		settings = s;
 		softDropActive = false;
 
 		int fieldWidth = MINO_SIZE * FIELD_WIDTH;
 
-		playfield.Init(FIELD_WIDTH, FIELD_HEIGHT, x, y, blockTextures, frameTexture, gridTexture);
-		currentPiece.setField(&playfield);
+		currentPiece.setField(playfield);
 		currentPiece.kickEnabled = false;
 
 		holdArea.Init(4, 2, x + fieldWidth / 2 - 7 * MINO_SIZE, y - 3 * MINO_SIZE, blockTextures, frameTexture);
@@ -107,7 +107,7 @@ namespace Tetris
 
 		updateText();
 
-		playfield.clear();
+		playfield->clear();
 	}
 
 	void TetrisPlayer::Update()
@@ -168,7 +168,6 @@ namespace Tetris
 
 	void TetrisPlayer::Render(SDL_Renderer* screen)
 	{
-		playfield.Render(screen);
 		if (settings->holdEnabled)
 		{
 			holdArea.Render(screen);
@@ -309,7 +308,7 @@ namespace Tetris
 	void TetrisPlayer::lock()
 	{
 		currentPiece.locktimer = -1;
-		int numLines = playfield.checkLines();
+		int numLines = playfield->checkLines();
 
 		// http://tetrisconcept.net/wiki/Scoring
 		//The scoring system here is just using the number of lines cleared like nes tetris
@@ -352,7 +351,7 @@ namespace Tetris
 			updateText();
 		}
 
-		playfield.removeCleared();
+		playfield->removeCleared();
 		holdAvailable = true;
 
 		spawn();
