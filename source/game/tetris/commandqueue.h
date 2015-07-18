@@ -10,6 +10,7 @@ namespace Tetris
 	{
 		CommandType type;
 		int playerIndex;
+		int frame;
 	};
 
 	typedef std::queue<Command> CommandQueue;

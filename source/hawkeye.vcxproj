@@ -145,13 +145,13 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="game\resources\assetmanager.cpp" />
     <ClCompile Include="game\tetris\gamelogic.cpp" />
     <ClCompile Include="game\tetris\mino.cpp" />
-    <ClCompile Include="game\tetris\preview.cpp" />
     <ClCompile Include="game\tetris\randomizer.cpp" />
     <ClCompile Include="game\tetris\settings.cpp" />
     <ClCompile Include="game\tetris\tetrimino.cpp" />
     <ClCompile Include="game\tetris\tetrion.cpp" />
     <ClCompile Include="game\tetris\Tetris.cpp" />
     <ClCompile Include="game\tetris\tetrisplayer.cpp" />
+    <ClCompile Include="game\ui\pausemenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\2d_renderer\Box.h" />
@@ -171,11 +171,11 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="game\tetris\settings.h" />
     <ClInclude Include="game\tetris\Tetris.h" />
     <ClInclude Include="game\tetris\tetrisplayer.h" />
-    <ClInclude Include="game\tetris\preview.h" />
     <ClInclude Include="game\tetris\randomizer.h" />
     <ClInclude Include="game\tetris\tetrimino.h" />
     <ClInclude Include="game\tetris\tetrion.h" />
     <ClInclude Include="game\tetris\types.h" />
+    <ClInclude Include="game\ui\pausemenu.h" />
     <ClInclude Include="game\util\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

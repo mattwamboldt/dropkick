@@ -6,3 +6,4 @@ source/hawkeye.v12.suo
 source/hawkeye.sdf
 test/*.dll
 test/hawkeye.*
+*.pdb

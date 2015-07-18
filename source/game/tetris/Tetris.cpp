@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 TetrisGame::TetrisGame(SDL_Renderer* screen)
-	:screen(screen), currentMode(ENDLESS)
+	:screen(screen), currentMode(NUM_MODES), menu(this, screen)
 {
 	font = assets.loadFont("data/fonts/ariblk.ttf", 32);
 	blockImages[BLOCK] = assets.loadTexture(screen, "data/images/tetrominos/square.png");
@@ -15,33 +15,23 @@ TetrisGame::TetrisGame(SDL_Renderer* screen)
 	blockImages[I] = assets.loadTexture(screen, "data/images/tetrominos/i.png");
 	blockImages[T] = assets.loadTexture(screen, "data/images/tetrominos/t.png");
 
-	menuTexts[MenuItem::Tetris_Reset].Init(screen, "Reset", font, screenWidth / 2, 45, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_PlayEndless].Init(screen, "Play Endless", font, screenWidth / 2, 115, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_PlayVersus].Init(screen, "Play Versus", font, screenWidth / 2, 185, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_PlayCoop].Init(screen, "Play Co-op", font, screenWidth / 2, 255, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_QuitGame].Init(screen, "Quit Game", font, screenWidth / 2, 325, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_ReloadTextures].Init(screen, "Reload Assets", font, screenWidth / 2, 395, { 0, 0, 0, 255 }, TextAlign::CENTER);
-	menuTexts[MenuItem::Tetris_ExitMenu].Init(screen, "Exit Menu", font, screenWidth / 2, 765, { 0, 0, 0, 255 }, TextAlign::CENTER);
-
 	frameImage = assets.loadTexture(screen, "data/images/frame.png");
 	background = assets.loadTexture(screen, "data/images/background.png");
 	gridImage = assets.loadTexture(screen, "data/images/grid.png");
-	menuImage = SDL_CreateTexture(screen, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
-	SDL_SetTextureBlendMode(menuImage, SDL_BLENDMODE_BLEND);
 	
 	frameCounter = 0;
 	time = 0.0;
 
 	//Nes Settings
-	settings.hardDropEnabled = false;
-	settings.ghostEnabled = false;
+	settings.hardDropEnabled = true;
+	settings.ghostEnabled = true;
 	settings.holdEnabled = true;
-	settings.lockDelayFrames = 0;
+	settings.lockDelayFrames = 10;
 	//0.5G
 	settings.softDropDistance = 1;
 	settings.softDropFrames = 2;
 
-	SetMode(BATTLE);
+	SetMode(COOP);
 }
 
 void TetrisGame::SetMode(Mode mode)
@@ -52,16 +42,28 @@ void TetrisGame::SetMode(Mode mode)
 	}
 	else
 	{
+		for (unsigned int i = 0; i < playfields.size(); ++i)
+		{
+			delete playfields[i];
+		}
+
+		playfields.clear();
+
 		if (mode == Mode::BATTLE)
 		{
 			int fieldX = (screenWidth / 4) - (MINO_SIZE * FIELD_WIDTH / 2);
 			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
 
-			playfields[0].Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
-			playfields[1].Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX + (screenWidth / 2), fieldY, blockImages, frameImage, gridImage);
+			Tetrion* leftGrid = new Tetrion();
+			leftGrid->Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
+			playfields.push_back(leftGrid);
 
-			players[0].Init(playfields, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
-			players[1].Init(playfields + 1, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			Tetrion* rightGrid = new Tetrion();
+			rightGrid->Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX + (screenWidth / 2), fieldY, blockImages, frameImage, gridImage);
+			playfields.push_back(rightGrid);
+
+			players[0].Init(leftGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[1].Init(rightGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
 
 			Reset();
 
@@ -72,9 +74,33 @@ void TetrisGame::SetMode(Mode mode)
 		{
 			int fieldX = (screenWidth / 2) - (MINO_SIZE * FIELD_WIDTH);
 			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
-			playfields[0].Init(FIELD_WIDTH * 2, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
-			players[0].Init(playfields, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
-			players[1].Init(playfields, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+
+			Tetrion* coopGrid = new Tetrion();
+			coopGrid->Init(FIELD_WIDTH * 2, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
+			playfields.push_back(coopGrid);
+
+			players[0].Init(coopGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[1].Init(coopGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+
+			Reset();
+
+			players[0].spawn();
+			players[1].spawn();
+		}
+		else if (mode == ENDLESS)
+		{
+			int fieldX = (screenWidth / 2) - (MINO_SIZE * FIELD_WIDTH / 2);
+			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
+			Tetrion* mainGrid = new Tetrion();
+			mainGrid->Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
+			players[0].Init(mainGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			playfields.push_back(mainGrid);
+
+			running = true;
+			gameover = false;
+
+			players[0].Reset();
+			players[0].spawn();
 		}
 
 		currentMode = mode;
@@ -101,9 +127,17 @@ void TetrisGame::Update(float deltaTime)
 
 		if (!gameover && running)
 		{
-			players[0].Update();
-			players[1].Update();
-			gameover = players[0].isGameOver() || players[1].isGameOver();
+			if (currentMode == Mode::BATTLE || currentMode == COOP)
+			{
+				players[0].Update();
+				players[1].Update();
+				gameover = players[0].isGameOver() || players[1].isGameOver();
+			}
+			else
+			{
+				players[0].Update();
+				gameover = players[0].isGameOver();
+			}
 		}
 	}
 }
@@ -112,130 +146,35 @@ void TetrisGame::Render()
 {
 	//Todo: center vertically and stretch
 	SDL_RenderCopy(screen, background, NULL, NULL);
-	playfields[0].Render(screen);
+	for (unsigned int i = 0; i < playfields.size(); ++i)
+	{
+		playfields[i]->Render(screen);
+	}
+
 	players[0].Render(screen);
 
-	if (currentMode == BATTLE)
-	{
-		playfields[1].Render(screen);
-		players[1].Render(screen);
-	}
-	else if (currentMode == COOP)
+	if (currentMode == BATTLE || currentMode == COOP)
 	{
 		players[1].Render(screen);
 	}
 	
-	if (menuopen)
+	if (menu.isOpen)
 	{
-		SDL_RenderCopy(screen, menuImage, NULL, NULL);
-		for (int i = 0; i < NUM_MENUITEMS; ++i)
-		{
-			menuTexts[i].Render(screen);
-		}
+		menu.Render();
 	}
-}
-
-void TetrisGame::OpenMenu()
-{
-	menuopen = true;
-	focusedMenuItem = 0;
-	running = false;
-	RedrawMenu();
 }
 
 void TetrisGame::CloseMenu()
 {
-	menuopen = false;
+	menu.isOpen = false;
 	running = true;
-}
-
-void TetrisGame::TriggerMenu()
-{
-	switch (focusedMenuItem)
-	{
-	case Tetris_Reset:
-		Reset();
-		break;
-
-	case Tetris_PlayEndless:
-		SetMode(ENDLESS);
-		break;
-
-	case Tetris_PlayVersus:
-		SetMode(BATTLE);
-		break;
-
-	case Tetris_PlayCoop:
-		SetMode(COOP);
-		break;
-
-	case Tetris_QuitGame:
-		SDL_Event ev;
-		ev.type = SDL_QUIT;
-		SDL_PushEvent(&ev);
-		break;
-	}
-}
-
-void TetrisGame::RedrawMenu()
-{
-	SDL_SetRenderTarget(screen, menuImage);
-	//Wipe the texture
-	SDL_SetRenderDrawColor(screen, 76, 76, 76, 152);
-	SDL_RenderClear(screen);
-
-	SDL_Rect drawrect = { screenWidth / 2 - 200, 30, 400, 50 };
-	SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
-
-	for (int i = 0; i < NUM_MENUITEMS; ++i)
-	{
-		if (focusedMenuItem == i)
-		{
-			SDL_SetRenderDrawColor(screen, 178, 178, 255, 255);
-			SDL_RenderFillRect(screen, &drawrect);
-			drawrect.y += drawrect.h + 20;
-			SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
-		}
-		else
-		{
-			SDL_RenderFillRect(screen, &drawrect);
-			drawrect.y += drawrect.h + 20;
-		}
-	}
-
-	SDL_SetRenderTarget(screen, NULL);
-}
-
-void TetrisGame::MenuHandleInput(SDL_GameControllerButton button)
-{
-	switch (button)
-	{
-	case SDL_CONTROLLER_BUTTON_DPAD_UP:
-		--focusedMenuItem;
-		focusedMenuItem = (focusedMenuItem + NUM_MENUITEMS) % NUM_MENUITEMS;
-		RedrawMenu();
-		break;
-
-	case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-		++focusedMenuItem;
-		focusedMenuItem %= NUM_MENUITEMS;
-		RedrawMenu();
-		break;
-
-	case SDL_CONTROLLER_BUTTON_A:
-		TriggerMenu();
-	case SDL_CONTROLLER_BUTTON_B:
-	case SDL_CONTROLLER_BUTTON_START:
-		CloseMenu();
-		break;
-	}
 }
 
 void TetrisGame::HandlePress(SDL_GameControllerButton button, int playerIndex)
 {
-	if (menuopen)
+	if (menu.isOpen)
 	{
-		MenuHandleInput(button);
+		menu.HandleInput(button);
 		return;
 	}
 
@@ -290,7 +229,8 @@ void TetrisGame::HandlePress(SDL_GameControllerButton button, int playerIndex)
 		break;
 
 	case SDL_CONTROLLER_BUTTON_START:
-		OpenMenu();
+		running = false;
+		menu.OpenMenu();
 		break;
 	}
 }

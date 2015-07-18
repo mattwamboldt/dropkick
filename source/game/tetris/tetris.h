@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "tetrisplayer.h"
 #include "../resources/assetmanager.h"
+#include "..\ui\pausemenu.h"
 
 using namespace Tetris;
 
@@ -20,6 +21,12 @@ public:
 	void HandlePress(SDL_GameControllerButton button, int playerIndex);
 	void HandleRelease(SDL_GameControllerButton button, int playerIndex);
 
+	void SetMode(Mode mode);
+	void OpenMenu();
+	void CloseMenu();
+
+	AssetManager assets;
+
 private:
 	SDL_Renderer* screen;
 
@@ -29,46 +36,21 @@ private:
 	float time;
 	unsigned int frameCounter;
 
-	TTF_Font* font;
 	SDL_Texture* background;
 	SDL_Texture* gridImage;
 	SDL_Texture* blockImages[NUM_PIECES];
 	SDL_Texture* frameImage;
 
 	TetrisPlayer players[2];
-	Tetrion playfields[2];
-
+	Randomizer randomizer[2];
+	std::vector<Tetrion*> playfields;
 
 	Settings settings;
-	AssetManager assets;
 
 	Mode currentMode;
+	TTF_Font* font;
 
-	// Debug menu stuff
-	enum MenuItem
-	{
-		Tetris_Reset = 0,
-		Tetris_PlayEndless,
-		Tetris_PlayVersus,
-		Tetris_PlayCoop,
-		Tetris_QuitGame,
-		Tetris_ReloadTextures,
-		Tetris_ExitMenu,
-		NUM_MENUITEMS
-	};
-
-	bool menuopen;
-	int focusedMenuItem;
-	Text menuTexts[NUM_MENUITEMS];
-	SDL_Texture* menuImage;
-
-	void OpenMenu();
-	void CloseMenu();
-	void TriggerMenu();
-	void RedrawMenu();
-	void MenuHandleInput(SDL_GameControllerButton button);
-
-	void SetMode(Mode mode);
+	PauseMenu menu;
 };
 
 #endif
