@@ -1,7 +1,7 @@
 #ifndef TETRIMINO_H
 #define TETRIMINO_H
 
-#include "tetrion.h"
+#include "playfield.h"
 
 namespace Tetris
 {
@@ -10,7 +10,7 @@ namespace Tetris
 	public:
 		Tetromino();
 
-		void setField(Tetrion* tetrion);
+		void setField(Playfield* tetrion);
 		void place();
 		void lift();
 		bool shift(int dx);
@@ -31,7 +31,7 @@ namespace Tetris
 		int locktimer;
 
 	private:
-		Tetrion* field;
+		Playfield* field;
 	};
 }
 

@@ -1,24 +1,21 @@
 #ifndef TETRION_H
 #define TETRION_H
 
-#include "mino.h"
-#include "SDL/SDL.h"
+#include "..\sim\block.h"
+#include "..\sim\playfield.h"
+#include "SDL\SDL.h"
 
 namespace Tetris
 {
 	class Tetrion
 	{
 	public:
-		~Tetrion();
-
 		void Init(int w, int h, int x, int y, SDL_Texture** blockTextures = 0, SDL_Texture* frameTexture = 0, SDL_Texture* gridTexture = 0);
-		Mino* get(int x, int y);
-		void clear();
-		int checkLines();
-		void removeCleared();
 
 		void Render(SDL_Renderer* screen);
+		void Render(SDL_Renderer* renderer, Block* block, int x, int y);
 
+		Playfield* GetField(){ return &playfield; }
 	private:
 		SDL_Texture** blockImages;
 		SDL_Texture* frameImage;
@@ -28,8 +25,7 @@ namespace Tetris
 		SDL_Rect gridRect;
 		int frameWidth;
 
-		Mino* blocks;
-		int width, height;
+		Playfield playfield;
 	};
 }
 

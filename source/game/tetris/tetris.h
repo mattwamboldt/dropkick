@@ -3,7 +3,7 @@
 
 #include "../2d_renderer/Text.h"
 #include "SDL/SDL_ttf.h"
-#include "settings.h"
+#include "..\sim\settings.h"
 #include "tetrisplayer.h"
 #include "../resources/assetmanager.h"
 #include "..\ui\pausemenu.h"
@@ -41,12 +41,12 @@ private:
 	SDL_Texture* blockImages[NUM_PIECES];
 	SDL_Texture* frameImage;
 
+	Tetromino currentPiece;
 	TetrisPlayer players[2];
 	Randomizer randomizer[2];
 	std::vector<Tetrion*> playfields;
 
 	Settings settings;
-
 	Mode currentMode;
 	TTF_Font* font;
 

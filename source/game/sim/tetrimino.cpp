@@ -63,7 +63,7 @@ namespace Tetris
 		field(0), x(0), y(0), orientation(SPAWN), type(NONE), locktimer(-1)
 	{}
 
-	void Tetromino::setField(Tetrion* tetrion)
+	void Tetromino::setField(Playfield* tetrion)
 	{
 		field = tetrion;
 	}
@@ -77,7 +77,7 @@ namespace Tetris
 
 		for (int i = 0; i < 4; ++i)
 		{
-			Mino* mino = field->get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
+			Block* mino = field->Get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
 			mino->state = ACTIVE;
 			mino->piece = type;
 		}
@@ -87,7 +87,7 @@ namespace Tetris
 	{
 		for (int i = 0; i < 4; ++i)
 		{
-			if (field->get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y)->state == ACTIVE)
+			if (field->Get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y)->state == ACTIVE)
 			{
 				return true;
 			}
@@ -105,7 +105,7 @@ namespace Tetris
 
 		for (int i = 0; i < 4; ++i)
 		{
-			Mino* mino = field->get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
+			Block* mino = field->Get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
 			mino->state = EMPTY;
 			mino->piece = NONE;
 		}
@@ -115,7 +115,7 @@ namespace Tetris
 	{
 		for (int i = 0; i < 4; ++i)
 		{
-			Mino* mino = field->get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
+			Block* mino = field->Get(x + minoOffsets[type][orientation][i].x, y + minoOffsets[type][orientation][i].y);
 			if (!mino || mino->state == ACTIVE)
 			{
 				return false;

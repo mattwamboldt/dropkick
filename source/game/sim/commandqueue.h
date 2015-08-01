@@ -1,7 +1,7 @@
 #ifndef SIM_COMMANDQUEUE_H
 #define SIM_COMMANDQUEUE_H
 
-#include "types.h"
+#include "..\tetris\types.h"
 #include <queue>
 
 namespace Tetris

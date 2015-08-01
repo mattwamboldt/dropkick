@@ -45,18 +45,18 @@ namespace Tetris
 
 		int fieldWidth = MINO_SIZE * FIELD_WIDTH;
 
-		currentPiece.setField(playfield);
+		currentPiece.setField(playfield->GetField());
 		currentPiece.kickEnabled = false;
 
 		holdArea.Init(4, 2, x + fieldWidth / 2 - 7 * MINO_SIZE, y - 3 * MINO_SIZE, blockTextures, frameTexture);
-		holdPiece.setField(&holdArea);
+		holdPiece.setField(holdArea.GetField());
 
 		preview.Init(4, 2, x + fieldWidth / 2 - 2 * MINO_SIZE, y - 3 * MINO_SIZE, blockTextures, frameTexture);
 		sidePreview.Init(4, 12, x + fieldWidth + MINO_SIZE, y, blockTextures, frameTexture);
-		previewPieces[0].setField(&preview);
-		previewPieces[1].setField(&sidePreview);
-		previewPieces[2].setField(&sidePreview);
-		previewPieces[3].setField(&sidePreview);
+		previewPieces[0].setField(preview.GetField());
+		previewPieces[1].setField(sidePreview.GetField());
+		previewPieces[2].setField(sidePreview.GetField());
+		previewPieces[3].setField(sidePreview.GetField());
 
 		previewPieces[0].x = 0;
 		previewPieces[0].y = 0;
@@ -107,7 +107,7 @@ namespace Tetris
 
 		updateText();
 
-		playfield->clear();
+		playfield->GetField()->Clear();
 	}
 
 	void TetrisPlayer::Update()
@@ -308,7 +308,7 @@ namespace Tetris
 	void TetrisPlayer::lock()
 	{
 		currentPiece.locktimer = -1;
-		int numLines = playfield->checkLines();
+		int numLines = playfield->GetField()->CheckLines();
 
 		// http://tetrisconcept.net/wiki/Scoring
 		//The scoring system here is just using the number of lines cleared like nes tetris
@@ -351,7 +351,7 @@ namespace Tetris
 			updateText();
 		}
 
-		playfield->removeCleared();
+		playfield->GetField()->RemoveCleared();
 		holdAvailable = true;
 
 		spawn();

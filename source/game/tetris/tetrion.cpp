@@ -2,20 +2,6 @@
 
 namespace Tetris
 {
-	Tetrion::~Tetrion()
-	{
-		if (frame)
-		{
-			SDL_DestroyTexture(frame);
-			frame = 0;
-		}
-
-		if (blocks)
-		{
-			delete[] blocks;
-		}
-	}
-
 	void Tetrion::Init(int w, int h, int x, int y, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture)
 	{
 		frame = 0;
@@ -24,14 +10,12 @@ namespace Tetris
 		frameImage = frameTexture;
 		gridImage = gridTexture;
 
-		if (blocks)
-		{
-			delete[] blocks;
-		}
-
-		width = w;
-		height = h;
-		blocks = new Mino[width * height];
+		playfield.Init(w, h);
+		
+		gridRect.x = x;
+		gridRect.y = y;
+		gridRect.w = w * MINO_SIZE;
+		gridRect.h = h * MINO_SIZE;
 
 		if (frameImage)
 		{
@@ -40,96 +24,8 @@ namespace Tetris
 			 
 			frameRect.x = x - frameWidth;
 			frameRect.y = y - frameWidth;
-			frameRect.w = width * MINO_SIZE + frameWidth * 2;
-			frameRect.h = height * MINO_SIZE + frameWidth * 2;
-		}
-
-		gridRect.x = x;
-		gridRect.y = y;
-		gridRect.w = width * MINO_SIZE;
-		gridRect.h = height * MINO_SIZE;
-
-		for (int i = 0; i < width * height; ++i)
-		{
-			blocks[i].position.x = (float)(x + ((i % width) * MINO_SIZE));
-			blocks[i].position.y = (float)(y + ((i / width) * MINO_SIZE));
-			blocks[i].width = MINO_SIZE;
-			blocks[i].height = MINO_SIZE;
-		}
-	}
-
-	Mino* Tetrion::get(int x, int y)
-	{
-		if (x >= 0 && y >= 0 && x < width && y < height)
-		{
-			return blocks + (x + y * width);
-		}
-
-		return 0;
-	}
-
-	void Tetrion::clear()
-	{
-		for (int i = 0; i < width * height; ++i)
-		{
-			//initialize the field
-			blocks[i].state = EMPTY;
-		}
-	}
-
-	int Tetrion::checkLines()
-	{
-		int numLines = 0;
-		for (int y = 0; y < height; ++y)
-		{
-			bool lineFilled = true;
-			for (int x = 0; x < width; ++x)
-			{
-				if (get(x, y)->state != ACTIVE)
-				{
-					lineFilled = false;
-					break;
-				}
-			}
-
-			if (lineFilled)
-			{
-				++numLines;
-				for (int x = 0; x < width; ++x)
-				{
-					get(x, y)->state = CLEAR;
-				}
-			}
-		}
-
-		return numLines;
-	}
-
-	void Tetrion::removeCleared()
-	{
-		int y = height - 1;
-		while (y >= 0)
-		{
-			if (get(0, y)->state == CLEAR)
-			{
-				for (int copyY = y; copyY > 0; --copyY)
-				{
-					for (int x = 0; x < width; ++x)
-					{
-						get(x, copyY)->state = get(x, copyY - 1)->state;
-						get(x, copyY)->piece = get(x, copyY - 1)->piece;
-					}
-				}
-
-				for (int x = 0; x < width; ++x)
-				{
-					get(x, 0)->state = EMPTY;
-				}
-			}
-			else
-			{
-				--y;
-			}
+			frameRect.w = gridRect.w + frameWidth * 2;
+			frameRect.h = gridRect.h + frameWidth * 2;
 		}
 	}
 
@@ -208,9 +104,32 @@ namespace Tetris
 			SDL_RenderCopy(screen, gridImage, NULL, &gridRect);
 		}
 
-		for (int i = 0; i < width * height; ++i)
+		for (int y = 0; y < playfield.GetHeight(); ++y)
 		{
-			blocks[i].Render(screen, blockImages);
+			int screenY = y * MINO_SIZE + gridRect.y;
+			for (int x = 0; x < playfield.GetWidth(); ++x)
+			{
+				Render(screen, playfield.Get(x, y), x * MINO_SIZE + gridRect.x, screenY);
+			}
+		}
+	}
+
+	void Tetrion::Render(SDL_Renderer* renderer, Block* block, int x, int y)
+	{
+		SDL_Rect fillRect = { x, y, MINO_SIZE, MINO_SIZE };
+
+		if (block->state == ACTIVE)
+		{
+			if (blockImages)
+			{
+				SDL_RenderCopy(renderer, blockImages[block->piece], NULL, &fillRect);
+			}
+			else
+			{
+				SDL_Color color = pieceColors[block->piece];
+				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+				SDL_RenderFillRect(renderer, &fillRect);
+			}
 		}
 	}
 }

@@ -3,9 +3,9 @@
 
 #include "../2d_renderer/Text.h"
 #include "../tetris/tetrion.h"
-#include "../tetris/randomizer.h"
-#include "../tetris/tetrimino.h"
-#include "../tetris/settings.h"
+#include "../sim/randomizer.h"
+#include "../sim/tetrimino.h"
+#include "../sim/settings.h"
 
 namespace Tetris
 {

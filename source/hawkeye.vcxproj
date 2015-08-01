@@ -135,7 +135,6 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="game\2d_renderer\camera.cpp" />
     <ClCompile Include="game\2d_renderer\Console.cpp" />
     <ClCompile Include="game\2d_renderer\Text.cpp" />
     <ClCompile Include="game\audio\Audio.cpp" />
@@ -143,11 +142,11 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="game\input\inputmanager.cpp" />
     <ClCompile Include="game\main.cpp" />
     <ClCompile Include="game\resources\assetmanager.cpp" />
-    <ClCompile Include="game\tetris\gamelogic.cpp" />
-    <ClCompile Include="game\tetris\mino.cpp" />
-    <ClCompile Include="game\tetris\randomizer.cpp" />
-    <ClCompile Include="game\tetris\settings.cpp" />
-    <ClCompile Include="game\tetris\tetrimino.cpp" />
+    <ClCompile Include="game\sim\playfield.cpp" />
+    <ClCompile Include="game\sim\gamelogic.cpp" />
+    <ClCompile Include="game\sim\randomizer.cpp" />
+    <ClCompile Include="game\sim\settings.cpp" />
+    <ClCompile Include="game\sim\tetrimino.cpp" />
     <ClCompile Include="game\tetris\tetrion.cpp" />
     <ClCompile Include="game\tetris\Tetris.cpp" />
     <ClCompile Include="game\tetris\tetrisplayer.cpp" />
@@ -155,8 +154,6 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\2d_renderer\Box.h" />
-    <ClInclude Include="game\2d_renderer\camera.h" />
-    <ClInclude Include="game\2d_renderer\Circle.h" />
     <ClInclude Include="game\2d_renderer\Console.h" />
     <ClInclude Include="game\2d_renderer\Text.h" />
     <ClInclude Include="game\audio\Audio.h" />
@@ -165,14 +162,15 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="game\gamesettings.h" />
     <ClInclude Include="game\input\inputmanager.h" />
     <ClInclude Include="game\resources\assetmanager.h" />
-    <ClInclude Include="game\tetris\commandqueue.h" />
-    <ClInclude Include="game\tetris\gamelogic.h" />
-    <ClInclude Include="game\tetris\mino.h" />
-    <ClInclude Include="game\tetris\settings.h" />
+    <ClInclude Include="game\sim\block.h" />
+    <ClInclude Include="game\sim\playfield.h" />
+    <ClInclude Include="game\sim\commandqueue.h" />
+    <ClInclude Include="game\sim\gamelogic.h" />
+    <ClInclude Include="game\sim\settings.h" />
     <ClInclude Include="game\tetris\Tetris.h" />
     <ClInclude Include="game\tetris\tetrisplayer.h" />
-    <ClInclude Include="game\tetris\randomizer.h" />
-    <ClInclude Include="game\tetris\tetrimino.h" />
+    <ClInclude Include="game\sim\randomizer.h" />
+    <ClInclude Include="game\sim\tetrimino.h" />
     <ClInclude Include="game\tetris\tetrion.h" />
     <ClInclude Include="game\tetris\types.h" />
     <ClInclude Include="game\ui\pausemenu.h" />
