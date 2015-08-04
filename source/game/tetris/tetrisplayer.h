@@ -15,7 +15,7 @@ namespace Tetris
 	public:
 		TetrisPlayer();
 
-		void Init(Tetrion* playfield, int x, int y, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture);
+		void Init(Tetrion* playfield, int x, int y, int sx, int sy, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture);
 		void Reset();
 		void Update();
 		void Render(SDL_Renderer* screen);
@@ -60,7 +60,6 @@ namespace Tetris
 		int gravityCount;
 
 		Tetrion* playfield;
-		Randomizer randomizer;
 
 		Tetromino currentPiece;
 
@@ -69,6 +68,9 @@ namespace Tetris
 
 		PieceQueue* queue;
 		Settings* settings;
+
+		int spawnX;
+		int spawnY;
 
 		bool gameover;
 	};

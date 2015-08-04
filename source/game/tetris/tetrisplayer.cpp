@@ -37,8 +37,10 @@ namespace Tetris
 		softDropActive = false;
 	}
 
-	void TetrisPlayer::Init(Tetrion* field, int x, int y, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture)
+	void TetrisPlayer::Init(Tetrion* field, int x, int y, int sx, int sy, Settings* s, SDL_Renderer* screen, TTF_Font* font, SDL_Texture** blockTextures, SDL_Texture* frameTexture, SDL_Texture* gridTexture)
 	{
+		spawnX = sx;
+		spawnY = sy;
 		playfield = field;
 		settings = s;
 		softDropActive = false;
@@ -174,8 +176,8 @@ namespace Tetris
 				currentPiece.type = queue->advance();
 			}
 
-			currentPiece.x = 3;
-			currentPiece.y = 0;
+			currentPiece.x = spawnX;
+			currentPiece.y = spawnY;
 			currentPiece.locktimer = -1;
 			currentPiece.orientation = SPAWN;
 			gameover = currentPiece.isBlockout();
@@ -209,8 +211,8 @@ namespace Tetris
 	//TODO: separate starting position from piece configuration
 	void TetrisPlayer::spawn()
 	{
-		currentPiece.x = 3;
-		currentPiece.y = 0;
+		currentPiece.x = spawnX;
+		currentPiece.y = spawnY;
 		currentPiece.type = queue->advance();
 		currentPiece.locktimer = -1;
 		currentPiece.orientation = SPAWN;

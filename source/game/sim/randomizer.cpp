@@ -6,7 +6,6 @@ namespace Tetris
 	Randomizer::Randomizer()
 	{
 		shuffle();
-		pieceIndex = 0;
 	}
 
 	PieceType Randomizer::next()
@@ -15,7 +14,6 @@ namespace Tetris
 		pieceIndex++;
 		if (pieceIndex >= BAG_SIZE)
 		{
-			pieceIndex = 0;
 			shuffle();
 		}
 
@@ -54,5 +52,7 @@ namespace Tetris
 			--remainingSelections;
 			++bagIndex;
 		}
+
+		pieceIndex = 0;
 	}
 }

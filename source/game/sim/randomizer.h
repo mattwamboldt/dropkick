@@ -12,10 +12,9 @@ namespace Tetris
 	public:
 		Randomizer();
 		PieceType next();
-
-	private:
 		void shuffle();
 
+	private:
 		PieceType bag[BAG_SIZE];
 		int pieceIndex;
 	};

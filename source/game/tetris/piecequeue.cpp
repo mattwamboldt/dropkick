@@ -20,6 +20,7 @@ namespace Tetris
 
 	void PieceQueue::Reset()
 	{
+		randomizer.shuffle();
 		for (int i = 0; i < 3; ++i)
 		{
 			previewPieces[i].lift();

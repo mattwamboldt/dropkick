@@ -67,8 +67,8 @@ void TetrisGame::SetMode(Mode mode)
 			queues[0].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
 			queues[1].Init(fieldX + (screenWidth / 2) + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
 
-			players[0].Init(leftGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
-			players[1].Init(rightGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[0].Init(leftGrid, fieldX, fieldY, 3, 0, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[1].Init(rightGrid, fieldX + (screenWidth / 2), 3, 0, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
 
 			players[0].SetQueue(queues);
 			players[1].SetQueue(queues + 1);
@@ -91,8 +91,8 @@ void TetrisGame::SetMode(Mode mode)
 			queues[0].Init(fieldX - MINO_SIZE * 5, fieldY, blockImages, frameImage);
 			queues[1].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
 
-			players[0].Init(coopGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
-			players[1].Init(coopGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[0].Init(coopGrid, fieldX, fieldY, 3, 0, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[1].Init(coopGrid, fieldX + (screenWidth / 2), fieldY, 13, 0, &settings, screen, font, blockImages, frameImage, gridImage);
 
 			players[0].SetQueue(queues);
 			players[1].SetQueue(queues + 1);
@@ -113,7 +113,7 @@ void TetrisGame::SetMode(Mode mode)
 			playfields.push_back(mainGrid);
 
 			queues[0].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
-			players[0].Init(mainGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[0].Init(mainGrid, fieldX, fieldY, 3, 0, &settings, screen, font, blockImages, frameImage, gridImage);
 
 			players[0].SetQueue(queues);
 
