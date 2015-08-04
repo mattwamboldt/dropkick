@@ -6,6 +6,7 @@
 #include "../sim/randomizer.h"
 #include "../sim/tetrimino.h"
 #include "../sim/settings.h"
+#include "../tetris/piecequeue.h"
 
 namespace Tetris
 {
@@ -18,6 +19,8 @@ namespace Tetris
 		void Reset();
 		void Update();
 		void Render(SDL_Renderer* screen);
+
+		void SetQueue(PieceQueue* pq){ queue = pq; }
 
 		void rotate(int direction);
 		void hold();
@@ -35,7 +38,6 @@ namespace Tetris
 		void fall(int distance);
 
 		void updateText();
-		PieceType advancePreview();
 
 		Text scoreText;
 		Text lineText;
@@ -59,15 +61,13 @@ namespace Tetris
 
 		Tetrion* playfield;
 		Randomizer randomizer;
+
 		Tetromino currentPiece;
 
 		Tetrion holdArea;
 		Tetromino holdPiece;
 
-		Tetrion preview;
-		Tetrion sidePreview;
-		Tetromino previewPieces[4];
-
+		PieceQueue* queue;
 		Settings* settings;
 
 		bool gameover;

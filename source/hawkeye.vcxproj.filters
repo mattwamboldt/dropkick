@@ -63,6 +63,9 @@
     <ClCompile Include="game\sim\gamelogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game\tetris\piecequeue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\2d_renderer\Box.h">
@@ -129,6 +132,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\sim\gamelogic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\sim\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\tetris\piecequeue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

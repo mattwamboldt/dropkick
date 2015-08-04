@@ -51,7 +51,9 @@ void TetrisGame::SetMode(Mode mode)
 
 		if (mode == Mode::BATTLE)
 		{
-			int fieldX = (screenWidth / 4) - (MINO_SIZE * FIELD_WIDTH / 2);
+			int fieldWidth = MINO_SIZE * FIELD_WIDTH;
+
+			int fieldX = (screenWidth / 4) - (fieldWidth / 2);
 			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
 
 			Tetrion* leftGrid = new Tetrion();
@@ -62,8 +64,14 @@ void TetrisGame::SetMode(Mode mode)
 			rightGrid->Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX + (screenWidth / 2), fieldY, blockImages, frameImage, gridImage);
 			playfields.push_back(rightGrid);
 
+			queues[0].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
+			queues[1].Init(fieldX + (screenWidth / 2) + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
+
 			players[0].Init(leftGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
 			players[1].Init(rightGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+
+			players[0].SetQueue(queues);
+			players[1].SetQueue(queues + 1);
 
 			Reset();
 
@@ -72,6 +80,7 @@ void TetrisGame::SetMode(Mode mode)
 		}
 		else if (mode == Mode::COOP)
 		{
+			int fieldWidth = MINO_SIZE * FIELD_WIDTH * 2;
 			int fieldX = (screenWidth / 2) - (MINO_SIZE * FIELD_WIDTH);
 			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
 
@@ -79,8 +88,14 @@ void TetrisGame::SetMode(Mode mode)
 			coopGrid->Init(FIELD_WIDTH * 2, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
 			playfields.push_back(coopGrid);
 
+			queues[0].Init(fieldX - MINO_SIZE * 5, fieldY, blockImages, frameImage);
+			queues[1].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
+
 			players[0].Init(coopGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
 			players[1].Init(coopGrid, fieldX + (screenWidth / 2), fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+
+			players[0].SetQueue(queues);
+			players[1].SetQueue(queues + 1);
 
 			Reset();
 
@@ -89,15 +104,22 @@ void TetrisGame::SetMode(Mode mode)
 		}
 		else if (mode == ENDLESS)
 		{
-			int fieldX = (screenWidth / 2) - (MINO_SIZE * FIELD_WIDTH / 2);
+			int fieldWidth = MINO_SIZE * FIELD_WIDTH;
+			int fieldX = (screenWidth / 2) - (fieldWidth / 2);
 			int fieldY = (screenHeight / 2) - (MINO_SIZE * FIELD_HEIGHT / 2);
+
 			Tetrion* mainGrid = new Tetrion();
 			mainGrid->Init(FIELD_WIDTH, FIELD_HEIGHT, fieldX, fieldY, blockImages, frameImage, gridImage);
-			players[0].Init(mainGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
 			playfields.push_back(mainGrid);
+
+			queues[0].Init(fieldX + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
+			players[0].Init(mainGrid, fieldX, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+
+			players[0].SetQueue(queues);
 
 			running = true;
 			gameover = false;
+			queues[0].Reset();
 
 			players[0].Reset();
 			players[0].spawn();
@@ -114,6 +136,8 @@ void TetrisGame::Reset()
 
 	players[0].Reset();
 	players[1].Reset();
+	queues[0].Reset();
+	queues[1].Reset();
 }
 
 void TetrisGame::Update(float deltaTime)
@@ -151,11 +175,13 @@ void TetrisGame::Render()
 		playfields[i]->Render(screen);
 	}
 
+	queues[0].Render(screen);
 	players[0].Render(screen);
 
 	if (currentMode == BATTLE || currentMode == COOP)
 	{
 		players[1].Render(screen);
+		queues[1].Render(screen);
 	}
 	
 	if (menu.isOpen)

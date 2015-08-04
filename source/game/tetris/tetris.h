@@ -43,7 +43,7 @@ private:
 
 	Tetromino currentPiece;
 	TetrisPlayer players[2];
-	Randomizer randomizer[2];
+	PieceQueue queues[2];
 	std::vector<Tetrion*> playfields;
 
 	Settings settings;

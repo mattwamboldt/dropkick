@@ -51,22 +51,6 @@ namespace Tetris
 		holdArea.Init(4, 2, x + fieldWidth / 2 - 7 * MINO_SIZE, y - 3 * MINO_SIZE, blockTextures, frameTexture);
 		holdPiece.setField(holdArea.GetField());
 
-		preview.Init(4, 2, x + fieldWidth / 2 - 2 * MINO_SIZE, y - 3 * MINO_SIZE, blockTextures, frameTexture);
-		sidePreview.Init(4, 12, x + fieldWidth + MINO_SIZE, y, blockTextures, frameTexture);
-		previewPieces[0].setField(preview.GetField());
-		previewPieces[1].setField(sidePreview.GetField());
-		previewPieces[2].setField(sidePreview.GetField());
-		previewPieces[3].setField(sidePreview.GetField());
-
-		previewPieces[0].x = 0;
-		previewPieces[0].y = 0;
-
-		for (int i = 0; i < 3; ++i)
-		{
-			previewPieces[i + 1].x = 0;
-			previewPieces[i + 1].y = i * 4;
-		}
-
 		int textY = y;
 		int textX = x - 150;
 		scoreText.Init(screen, "SCORE 0", font, textX, textY);
@@ -95,15 +79,6 @@ namespace Tetris
 		holdPiece.locktimer = -1;
 		holdPiece.orientation = SPAWN;
 		holdPiece.place();
-
-		for (int i = 0; i < 4; ++i)
-		{
-			previewPieces[i].lift();
-			previewPieces[i].type = randomizer.next();
-			previewPieces[i].locktimer = -1;
-			previewPieces[i].orientation = SPAWN;
-			previewPieces[i].place();
-		}
 
 		updateText();
 
@@ -141,42 +116,11 @@ namespace Tetris
 		}
 	}
 
-	PieceType TetrisPlayer::advancePreview()
-	{
-		PieceType nextPiece = previewPieces[0].type;
-
-		for (int i = 0; i < 4; ++i)
-		{
-			previewPieces[i].lift();
-
-			if (i == 3)
-			{
-				previewPieces[i].type = randomizer.next();
-			}
-			else
-			{
-				previewPieces[i].type = previewPieces[i + 1].type;
-			}
-
-			previewPieces[i].locktimer = -1;
-			previewPieces[i].orientation = SPAWN;
-			previewPieces[i].place();
-		}
-
-		return nextPiece;
-	}
-
 	void TetrisPlayer::Render(SDL_Renderer* screen)
 	{
 		if (settings->holdEnabled)
 		{
 			holdArea.Render(screen);
-		}
-
-		if (settings->previewEnabled)
-		{
-			preview.Render(screen);
-			sidePreview.Render(screen);
 		}
 
 		scoreText.Render(screen);
@@ -227,7 +171,7 @@ namespace Tetris
 
 			if (currentPiece.type == NONE)
 			{
-				currentPiece.type = advancePreview();
+				currentPiece.type = queue->advance();
 			}
 
 			currentPiece.x = 3;
@@ -267,7 +211,7 @@ namespace Tetris
 	{
 		currentPiece.x = 3;
 		currentPiece.y = 0;
-		currentPiece.type = advancePreview();
+		currentPiece.type = queue->advance();
 		currentPiece.locktimer = -1;
 		currentPiece.orientation = SPAWN;
 

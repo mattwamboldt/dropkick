@@ -147,6 +147,7 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClCompile Include="game\sim\randomizer.cpp" />
     <ClCompile Include="game\sim\settings.cpp" />
     <ClCompile Include="game\sim\tetrimino.cpp" />
+    <ClCompile Include="game\tetris\piecequeue.cpp" />
     <ClCompile Include="game\tetris\tetrion.cpp" />
     <ClCompile Include="game\tetris\Tetris.cpp" />
     <ClCompile Include="game\tetris\tetrisplayer.cpp" />
@@ -163,10 +164,12 @@ xcopy /d /y "$(ProjectDir)thirdparty\dll" "$(OutDir)"</Command>
     <ClInclude Include="game\input\inputmanager.h" />
     <ClInclude Include="game\resources\assetmanager.h" />
     <ClInclude Include="game\sim\block.h" />
+    <ClInclude Include="game\sim\player.h" />
     <ClInclude Include="game\sim\playfield.h" />
     <ClInclude Include="game\sim\commandqueue.h" />
     <ClInclude Include="game\sim\gamelogic.h" />
     <ClInclude Include="game\sim\settings.h" />
+    <ClInclude Include="game\tetris\piecequeue.h" />
     <ClInclude Include="game\tetris\Tetris.h" />
     <ClInclude Include="game\tetris\tetrisplayer.h" />
     <ClInclude Include="game\sim\randomizer.h" />
