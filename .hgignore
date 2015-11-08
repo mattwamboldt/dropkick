@@ -7,3 +7,4 @@ source/hawkeye.sdf
 test/*.dll
 test/hawkeye.*
 *.pdb
+*.opensdf

@@ -31,7 +31,7 @@ TetrisGame::TetrisGame(SDL_Renderer* screen)
 	settings.softDropDistance = 1;
 	settings.softDropFrames = 2;
 
-	SetMode(COOP);
+	SetMode(BATTLE);
 }
 
 void TetrisGame::SetMode(Mode mode)
@@ -68,7 +68,7 @@ void TetrisGame::SetMode(Mode mode)
 			queues[1].Init(fieldX + (screenWidth / 2) + fieldWidth + MINO_SIZE, fieldY, blockImages, frameImage);
 
 			players[0].Init(leftGrid, fieldX, fieldY, 3, 0, &settings, screen, font, blockImages, frameImage, gridImage);
-			players[1].Init(rightGrid, fieldX + (screenWidth / 2), 3, 0, fieldY, &settings, screen, font, blockImages, frameImage, gridImage);
+			players[1].Init(rightGrid, fieldX + (screenWidth / 2), fieldY, 3, 0, &settings, screen, font, blockImages, frameImage, gridImage);
 
 			players[0].SetQueue(queues);
 			players[1].SetQueue(queues + 1);
