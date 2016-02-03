@@ -1,10 +1,11 @@
 syntax: glob
 test/data/**
 temp/**
-source/hawkeye.vcxproj.user
-source/hawkeye.v12.suo
-source/hawkeye.sdf
 test/*.dll
 test/hawkeye.*
 *.pdb
 *.opensdf
+*.sdf
+*.suo
+*.user
+test/dropkick.*

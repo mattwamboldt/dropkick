@@ -1,0 +1,5 @@
+This file will list all of the general refactors that should be done to make the code cleaner
+- separate queue from the player
+- separate the hold piece from the player
+- set up modes by creating needed components and attaching them to each other in the right way
+- Generally separate the logic from the rendering

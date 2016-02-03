@@ -1,0 +1,11 @@
+Missing features:
+- Animation
+- DAS
+- Garbage
+- Timers for Lock Delay, Spawn Delay, Line Clear, etc.
+- Powerups
+- Kicks
+- Game states for end, and whatnot
+- Menus beyond the debug one
+- Saving/Loading
+- String DB

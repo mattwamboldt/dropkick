@@ -124,6 +124,8 @@ void GameLoop::Run(TetrisGame* game)
 
 		//push the screen to the video card and display
 		SDL_RenderPresent(renderer);
+
+		SDL_Delay(1);
 	}
 }
 

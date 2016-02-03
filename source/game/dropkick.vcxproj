@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}</ProjectGuid>
+    <RootNamespace>dropkick</RootNamespace>
+    <ProjectName>dropkick</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib\SDL;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\temp\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\test\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)thirdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib\SDL;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\temp\$(ProjectName)\$(Platform)_$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\game\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_MBCS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /e /i /y "$(SolutionDir)..\game\data" "$(OutDir)data"
+xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib\SDL</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /e /i /y "$(SolutionDir)..\game\data" "$(OutDir)data"
+xcopy /d /y "$(SolutionDir)thirdparty\dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="2d_renderer\Console.cpp" />
+    <ClCompile Include="2d_renderer\Text.cpp" />
+    <ClCompile Include="audio\Audio.cpp" />
+    <ClCompile Include="debug\logger.cpp" />
+    <ClCompile Include="gameloop.cpp" />
+    <ClCompile Include="input\inputmanager.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="resources\assetmanager.cpp" />
+    <ClCompile Include="sim\playfield.cpp" />
+    <ClCompile Include="sim\randomizer.cpp" />
+    <ClCompile Include="sim\settings.cpp" />
+    <ClCompile Include="sim\tetrimino.cpp" />
+    <ClCompile Include="tetris\piecequeue.cpp" />
+    <ClCompile Include="tetris\tetrion.cpp" />
+    <ClCompile Include="tetris\Tetris.cpp" />
+    <ClCompile Include="tetris\tetrisplayer.cpp" />
+    <ClCompile Include="ui\pausemenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2d_renderer\Box.h" />
+    <ClInclude Include="2d_renderer\Console.h" />
+    <ClInclude Include="2d_renderer\Text.h" />
+    <ClInclude Include="audio\Audio.h" />
+    <ClInclude Include="audio\TuningFork.h" />
+    <ClInclude Include="debug\logger.h" />
+    <ClInclude Include="gameloop.h" />
+    <ClInclude Include="gamesettings.h" />
+    <ClInclude Include="input\inputmanager.h" />
+    <ClInclude Include="resources\assetmanager.h" />
+    <ClInclude Include="sim\block.h" />
+    <ClInclude Include="sim\playfield.h" />
+    <ClInclude Include="sim\settings.h" />
+    <ClInclude Include="tetris\piecequeue.h" />
+    <ClInclude Include="tetris\Tetris.h" />
+    <ClInclude Include="tetris\tetrisplayer.h" />
+    <ClInclude Include="sim\randomizer.h" />
+    <ClInclude Include="sim\tetrimino.h" />
+    <ClInclude Include="tetris\tetrion.h" />
+    <ClInclude Include="tetris\types.h" />
+    <ClInclude Include="ui\pausemenu.h" />
+    <ClInclude Include="util\Vector.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

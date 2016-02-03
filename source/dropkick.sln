@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hawkeye", "hawkeye.vcxproj", "{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dropkick", "game\dropkick.vcxproj", "{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,8 +14,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Debug|Win32.Build.0 = Debug|Win32
-		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Profile|Win32.ActiveCfg = Profile|Win32
-		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Profile|Win32.Build.0 = Profile|Win32
+		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Profile|Win32.ActiveCfg = Release|Win32
+		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Profile|Win32.Build.0 = Release|Win32
 		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Release|Win32.ActiveCfg = Release|Win32
 		{F0102F03-13E3-4348-B43D-91BE0E3DFFAA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
