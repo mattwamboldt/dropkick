@@ -1,0 +1,10 @@
+temp/
+test/data/
+test/*.dll
+test/hawkeye.*
+test/dropkick.*
+*.pdb
+*.opensdf
+*.sdf
+*.suo
+*.user
