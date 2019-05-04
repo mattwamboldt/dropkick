@@ -9,7 +9,7 @@ public:
 	static Vector unit(float degrees)
 	{
 		float radians = (float)(degrees * M_PI / 180.0);
-		return Vector(cos(radians), sin(radians));
+		return Vector(cosf(radians), sinf(radians));
 	}
 
 	Vector() : x(0.0f), y(0.0f) {}
@@ -17,7 +17,7 @@ public:
 
 	float Magnitude()
 	{
-		return sqrt(x * x + y * y);
+		return sqrtf(x * x + y * y);
 	}
 
 	Vector Normalize()

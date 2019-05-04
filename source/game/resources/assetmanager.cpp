@@ -9,7 +9,7 @@ TTF_Font* AssetManager::loadFont(const char* path, int size)
 	TTF_Font* font = TTF_OpenFont(path, 16);
 	if (font == NULL)
 	{
-		printf("Failed to load font %s! Error: %s\n", TTF_GetError());
+		printf("Failed to load font %s! Error: %s\n", path, TTF_GetError());
 	}
 	else
 	{
